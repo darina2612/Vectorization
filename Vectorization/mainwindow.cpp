@@ -3,7 +3,7 @@
 
 #include <QFileDialog>
 
-#include <iostream>
+#include <opencv2/opencv.hpp>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,8 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-
     delete currentImage;
+    delete currentImageTransformations;
 }
 
 void MainWindow::handleLoadImage()
@@ -32,6 +32,8 @@ void MainWindow::handleLoadImage()
     {
         return;
     }
+
+    currentImageTransformations = new ImageTranformations(filename.toStdString());
 
     currentImage = new ImageView(filename);
 

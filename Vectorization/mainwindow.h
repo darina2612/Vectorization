@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <imageview.h>
+#include <imagetranformations.h>
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +23,8 @@ public slots:
 private:
     Ui::MainWindow * ui;
     ImageView* currentImage;
+
+    ImageTranformations* currentImageTransformations;
 };
 
 #endif // MAINWINDOW_H

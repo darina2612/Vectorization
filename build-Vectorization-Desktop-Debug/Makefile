@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -m64 -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -m64 -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../Vectorization -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64
+INCPATH       = -I../Vectorization -I. -isystem /usr/include/opencv -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -36,7 +36,7 @@ DISTNAME      = Vectorization1.0.0
 DISTDIR = /home/darina/Documents/Vectorization/Vectorization/.tmp/Vectorization1.0.0
 LINK          = g++
 LFLAGS        = -m64
-LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -L/usr/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -50,11 +50,13 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../Vectorization/main.cpp \
 		../Vectorization/mainwindow.cpp \
-		../Vectorization/imageview.cpp moc_mainwindow.cpp \
+		../Vectorization/imageview.cpp \
+		../Vectorization/imagetranformations.cpp moc_mainwindow.cpp \
 		moc_imageview.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		imageview.o \
+		imagetranformations.o \
 		moc_mainwindow.o \
 		moc_imageview.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -112,9 +114,11 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		../Vectorization/Vectorization.pro ../Vectorization/mainwindow.h \
-		../Vectorization/imageview.h ../Vectorization/main.cpp \
+		../Vectorization/imageview.h \
+		../Vectorization/imagetranformations.h ../Vectorization/main.cpp \
 		../Vectorization/mainwindow.cpp \
-		../Vectorization/imageview.cpp
+		../Vectorization/imageview.cpp \
+		../Vectorization/imagetranformations.cpp
 QMAKE_TARGET  = Vectorization
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = Vectorization
@@ -276,8 +280,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../Vectorization/mainwindow.h ../Vectorization/imageview.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Vectorization/main.cpp ../Vectorization/mainwindow.cpp ../Vectorization/imageview.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Vectorization/mainwindow.h ../Vectorization/imageview.h ../Vectorization/imagetranformations.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Vectorization/main.cpp ../Vectorization/mainwindow.cpp ../Vectorization/imageview.cpp ../Vectorization/imagetranformations.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Vectorization/mainwindow.ui $(DISTDIR)/
 
 
@@ -304,11 +308,13 @@ compiler_rcc_clean:
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_imageview.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_mainwindow.cpp moc_imageview.cpp
-moc_mainwindow.cpp: ../Vectorization/mainwindow.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/darina/Documents/Vectorization/Vectorization -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Vectorization/mainwindow.h -o moc_mainwindow.cpp
+moc_mainwindow.cpp: ../Vectorization/imageview.h \
+		../Vectorization/imagetranformations.h \
+		../Vectorization/mainwindow.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/darina/Documents/Vectorization/Vectorization -I/usr/include/opencv -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Vectorization/mainwindow.h -o moc_mainwindow.cpp
 
 moc_imageview.cpp: ../Vectorization/imageview.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/darina/Documents/Vectorization/Vectorization -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Vectorization/imageview.h -o moc_imageview.cpp
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/darina/Documents/Vectorization/Vectorization -I/usr/include/opencv -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Vectorization/imageview.h -o moc_imageview.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -328,15 +334,22 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-main.o: ../Vectorization/main.cpp ../Vectorization/mainwindow.h
+main.o: ../Vectorization/main.cpp ../Vectorization/mainwindow.h \
+		../Vectorization/imageview.h \
+		../Vectorization/imagetranformations.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Vectorization/main.cpp
 
 mainwindow.o: ../Vectorization/mainwindow.cpp ../Vectorization/mainwindow.h \
+		../Vectorization/imageview.h \
+		../Vectorization/imagetranformations.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Vectorization/mainwindow.cpp
 
 imageview.o: ../Vectorization/imageview.cpp ../Vectorization/imageview.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o imageview.o ../Vectorization/imageview.cpp
+
+imagetranformations.o: ../Vectorization/imagetranformations.cpp ../Vectorization/imagetranformations.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o imagetranformations.o ../Vectorization/imagetranformations.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
