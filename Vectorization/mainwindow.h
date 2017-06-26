@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <imageview.h>
 
 namespace Ui {
 class MainWindow;
@@ -19,7 +20,8 @@ public slots:
     void handleLoadImage();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow * ui;
+    ImageView* currentImage;
 };
 
 #endif // MAINWINDOW_H

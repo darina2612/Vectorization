@@ -7,7 +7,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    currentImage(NULL)
 {
     ui->setupUi(this);
 
@@ -17,13 +18,22 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+
+    delete currentImage;
 }
 
 void MainWindow::handleLoadImage()
 {
     QFileDialog* fileDialog = new QFileDialog(this);
 
-    QString filename = QFileDialog::getOpenFileName(fileDialog,"Select Image", "/home", "JPEG (*.jpg);BMP (*.bmp)");
+    QString filename = QFileDialog::getOpenFileName(fileDialog,"Select Image", "", "JPEG (*.jpg);BMP (*.bmp)");
 
+    if(filename.size() == 0)
+    {
+        return;
+    }
 
+    currentImage = new ImageView(filename);
+
+    currentImage->show();
 }
