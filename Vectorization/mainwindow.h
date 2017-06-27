@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <opencv2/opencv.hpp>
 #include <QMainWindow>
 #include <imageview.h>
 #include <imagetranformations.h>
@@ -19,8 +20,13 @@ public:
 
 public slots:
     void handleLoadImage();
+    void handleShowBinarized();
+    void handleShowContoured();
 
 private:
+
+    QImage Mat2QImage(cv::Mat const& src);
+
     Ui::MainWindow * ui;
     ImageView* currentImage;
 

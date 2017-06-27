@@ -6,12 +6,11 @@
 #include <cassert>
 
 
-ImageView::ImageView(const QString& filename, QWidget* parent):
+ImageView::ImageView(const QImage im, QWidget* parent):
     QWidget(parent),
-    image(NULL),
+    image(new QImage(im)),
     imageLabel(NULL)
 {
-    assert(loadImage(filename));
     createLabelWithPixmap(QPixmap::fromImage(*image));
 
     QHBoxLayout* layout = new QHBoxLayout(this);
@@ -27,14 +26,6 @@ void ImageView::createLabelWithPixmap(const QPixmap& pixmap)
         imageLabel = new QLabel;
 
     imageLabel->setPixmap(pixmap);
-}
-
-bool ImageView::loadImage(const QString& imageName)
-{
-    if (!image)
-        image = new QImage();
-
-   return image->load(imageName);
 }
 
 ImageView::~ImageView()
