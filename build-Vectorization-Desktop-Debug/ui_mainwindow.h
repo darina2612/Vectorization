@@ -30,6 +30,7 @@ public:
     QPushButton *pushButton;
     QPushButton *pushButton_2;
     QPushButton *pushButton_3;
+    QPushButton *pushButton_4;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -38,7 +39,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(517, 107);
+        MainWindow->resize(170, 388);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         pushButton = new QPushButton(centralWidget);
@@ -46,14 +47,17 @@ public:
         pushButton->setGeometry(QRect(10, 10, 99, 27));
         pushButton_2 = new QPushButton(centralWidget);
         pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setGeometry(QRect(120, 10, 121, 27));
+        pushButton_2->setGeometry(QRect(10, 50, 121, 27));
         pushButton_3 = new QPushButton(centralWidget);
         pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-        pushButton_3->setGeometry(QRect(250, 10, 131, 27));
+        pushButton_3->setGeometry(QRect(10, 90, 131, 27));
+        pushButton_4 = new QPushButton(centralWidget);
+        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
+        pushButton_4->setGeometry(QRect(10, 130, 131, 27));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 517, 25));
+        menuBar->setGeometry(QRect(0, 0, 170, 25));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -73,6 +77,7 @@ public:
         pushButton->setText(QApplication::translate("MainWindow", "Load Image", 0));
         pushButton_2->setText(QApplication::translate("MainWindow", "Show Binarized", 0));
         pushButton_3->setText(QApplication::translate("MainWindow", "Show Contoured", 0));
+        pushButton_4->setText(QApplication::translate("MainWindow", "Show Skeletonized", 0));
     } // retranslateUi
 
 };

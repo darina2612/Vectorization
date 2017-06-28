@@ -22,6 +22,7 @@ public slots:
     void handleLoadImage();
     void handleShowBinarized();
     void handleShowContoured();
+    void handleShowSkeletonized();
 
 private:
 

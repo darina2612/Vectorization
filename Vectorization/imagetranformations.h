@@ -34,6 +34,12 @@ private:
     bool isBlack(const cv::Vec4b& v) const;
     bool isContour(int i, int j) const;
 
+    int f1(int i, int j, int value) const;
+    int f2(int i, int j, int value) const;
+
+    int** distanceTransformHelper;
+    int** distanceTransform;
+
     cv::Mat* originalImage;
     cv::Mat* binarizedImage;
     cv::Mat* contouredImage;

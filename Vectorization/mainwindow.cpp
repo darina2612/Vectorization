@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->pushButton, SIGNAL(pressed()), this, SLOT(handleLoadImage()));
     QObject::connect(ui->pushButton_2, SIGNAL(pressed()), this, SLOT(handleShowBinarized()));
     QObject::connect(ui->pushButton_3, SIGNAL(pressed()), this, SLOT(handleShowContoured()));
+    QObject::connect(ui->pushButton_4, SIGNAL(pressed()), this, SLOT(handleShowSkeletonized()));
 }
 
 MainWindow::~MainWindow()
@@ -55,6 +56,15 @@ void MainWindow::handleLoadImage()
  void MainWindow::handleShowContoured()
  {
      QImage toShow = Mat2QImage(*currentImageTransformations->getContouredImage());
+
+     ImageView* view = new ImageView(toShow);
+
+     view->show();
+ }
+
+ void MainWindow::handleShowSkeletonized()
+ {
+     QImage toShow = Mat2QImage(*currentImageTransformations->getSkeletonizedImage());
 
      ImageView* view = new ImageView(toShow);
 

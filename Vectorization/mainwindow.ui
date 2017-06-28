@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>517</width>
-    <height>107</height>
+    <width>170</width>
+    <height>388</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>10</y>
+      <x>10</x>
+      <y>50</y>
       <width>121</width>
       <height>27</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>10</y>
+      <x>10</x>
+      <y>90</y>
       <width>131</width>
       <height>27</height>
      </rect>
@@ -53,13 +53,26 @@
      <string>Show Contoured</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>131</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Show Skeletonized</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>517</width>
+     <width>170</width>
      <height>25</height>
     </rect>
    </property>
